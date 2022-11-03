@@ -3,13 +3,12 @@
     <style>
             .sidenav {
                 width: 230px;
-                position: absolute;
+                position: fixed;
                 left: 30px;
                 background: #eee;
                 top: 110px;
                 padding: 20px;
                 height: auto;
-                height: 100%;
             }
             .sidenav a {
                 padding: 6px 8px 6px 16px;
@@ -40,6 +39,7 @@
         <div class="content">
             <Row id="info">
                 <h2>Account Information</h2>
+                <hr>
                 <h3>Name:</h3>
                 <h3>Age:</h3>
                 <h3>Email:</h3>
@@ -49,12 +49,14 @@
 
             <Row id="checkout">
                 <h2>Checkout Information</h2>
+                <hr>
                 <h3>Late Fees Due:</h3>
                 <h3>Books Currently Checked Out:</h3>
             </Row>
 
             <Row id="rating">
                 <h2>Rating History</h2>
+                <hr>
                 <h3>Book:</h3>
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Update</button>
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Delete</button>
@@ -62,6 +64,7 @@
 
             <Row id="settings">
                 <h2>Account Settings</h2>
+                <hr>
                 <h3>Username:</h3>
                 <h3>Password:</h3>
             </Row>
@@ -72,6 +75,8 @@
         <?php include('footer.html') ?> 
 
     </body>
+
+</html>
 
 
 
