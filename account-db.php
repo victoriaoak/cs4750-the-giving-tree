@@ -99,4 +99,51 @@ function deleteBook($user_id, $username, $pwd, $first_name, $last_name, $age, $e
     $statement->execute();
     $statement->closeCursor();
 }
+
+function addAddress($street_address, $city, $state, $zip_code)
+{
+    global $db;
+    $query = "INSERT INTO user_address VALUES (:street_address, :city, :state, :zip_code)";  
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':street_address', $street_address);
+        $statement->bindValue(':city', $city);
+        $statement->bindValue(':state', $state);
+        $statement->bindValue(':zip_code', $zip_code);
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to add user <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
+function addAdminInfo($user_id, $role)
+{
+    global $db;
+    $query = "INSERT INTO admin_info VALUES (:user_id, :role)";  
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':role', $role);
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to add user <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
 ?>
