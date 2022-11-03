@@ -39,16 +39,37 @@ function addUser($user_id, $username, $pwd, $first_name, $last_name, $age, $emai
     }
 }
 
-// get user information
-function getUserByID($title, $author)
+function addCustomer($user_id, $ranking) 
 {
     global $db;
-    $query = "SELECT * FROM books_info WHERE title = :title AND author = :author";
+    $query = "INSERT INTO customer VALUES (:user_id, :ranking)";
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':ranking', $ranking);
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to add user <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
+// get user information
+function getUserByID($user_id)
+{
+    global $db;
+    $query = "SELECT * FROM user_info WHERE user_id = :user_id";
 
     try {
         $statement = $db->prepare($query);
-        $statement->bindValue(':title', $title);
-        $statement->bindValue(':author', $author);
+        $statement->bindValue(':user_id', $user_id);
         $statement->execute();
         $result = $statement->fetch();
         $statement->closeCursor();
@@ -56,7 +77,7 @@ function getUserByID($title, $author)
     catch (PDOException $e)
     {
         if ($statement->rowCount() == 0) {
-            echo $title . "by" . $author . "is not found <br/>";
+            echo $user_id . "is not found <br/>";
         } else {
             var_dump($result);
         }

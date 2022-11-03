@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   }
   if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Confirm update')
   {
-    updateBook($_POST['title'], $_POST['author'], $_POST['genre'], $_POST['avg_rating'], $_POST['quantity'], $_POST['in_stock']);
+    updateBook($_POST['book_title_update'], $_POST['book_author_update'], $_POST['genre'], $_POST['book_rating_update'], $_POST['quantity'], $_POST['in_stock']);
     $list_of_books = getAllBooks();
   }
 }
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="your name">
   <meta name="description" content="include some description about your page">      
-  <title>Book Insert/Update</title>
+  <title>Update a Book</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="icon" type="image/png" href="http://www.cs.virginia.edu/~up3f/cs4750/images/db-icon.png" />
@@ -49,20 +49,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 
 <div class="container">
-  <h1>Update/Insert Book</h1>  
+  <h1>Update a Book</h1>  
 
 <form name="mainForm" action="book-catalogue.php" method="post">   
   <div class="row mb-3 mx-3">
     Title:
-    <input type="text" class="form-control" name="title" required 
+    <input type="text" class="form-control" name="title" disabled 
           value="<?php if ($book_to_update!=null) echo $book_to_update['title'] ?>"
-    />            
+    />   
+    <input type="hidden" name="book_title_update" 
+                value="<?php echo $book_to_update['title']; ?>" />         
   </div>  
   <div class="row mb-3 mx-3">
     Author:
-    <input type="text" class="form-control" name="author" required 
+    <input type="text" class="form-control" name="author" disabled 
     value="<?php if ($book_to_update!=null) echo $book_to_update['author'] ?>"
-    />            
+    /> 
+    <input type="hidden" name="book_author_update" 
+                value="<?php echo $book_to_update['author']; ?>" />           
   </div>
   <div class="row mb-3 mx-3">
     Genre:
@@ -72,9 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </div>  
   <div class="row mb-3 mx-3">
     Average Rating:
-    <input type="number" max="5" min="0" step="0.01" class="form-control" name="avg_rating" 
+    <input type="number" max="5" min="0" step="0.01" class="form-control" name="avg_rating" disabled
     value="<?php if ($book_to_update!=null) echo $book_to_update['avg_rating'] ?>"
-    />            
+    />
+    <input type="hidden" name="book_rating_update" 
+                value="<?php echo $book_to_update['avg_rating']; ?>" />            
   </div>
   <div class="row mb-3 mx-3">
     Quantity:
@@ -89,8 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     />            
   </div>     
   <div>
-    <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
-           title="Insert the book into the database" />            
     <input type="submit" value="Confirm update" name="btnAction" class="btn btn-primary" 
            title="Update book" />            
   </div>  
