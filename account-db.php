@@ -65,33 +65,37 @@ function getUserByID($title, $author)
 }
 
 // user info table only
-function updateUser($title, $author, $genre, $avg_rating, $quantity, $in_stock)
+function updateUser($user_id, $username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city, $late_fee_dues)
 {
     // get instance of PDO
     // prepare statement
     // 1) prepare
     // 2) bindValue, execute
     global $db;
-    $query = "UPDATE books_info SET genre=:genre, avg_rating=:avg_rating, quantity=:quantity, in_stock=:in_stock WHERE title=:title AND author=:author";
+    $query = "UPDATE user_info SET username=:username, pwd=:pwd, first_name=:first_name, last_name=:last_name, age=:age, email=:email, phone_number=:phone_number, street_address=:street_address, city=:city, late_fee_dues=:late_fee_dues WHERE user_id=:user_id";
     $statement = $db->prepare($query);
-    $statement->bindValue(':title', $title);
-    $statement->bindValue(':author', $author);
-    $statement->bindValue(':genre', $genre);
-    $statement->bindValue(':avg_rating', $avg_rating);
-    $statement->bindValue(':quantity', $quantity);
-    $statement->bindValue(':in_stock', $in_stock);
+    $statement->bindValue(':user_id', $user_id);
+    $statement->bindValue(':username', $username);
+    $statement->bindValue(':pwd', $pwd);
+    $statement->bindValue(':first_name', $first_name);
+    $statement->bindValue(':last_name', $last_name);
+    $statement->bindValue(':age', $age);
+    $statement->bindValue(':email', $email);
+    $statement->bindValue(':phone_number', $phone_number);
+    $statement->bindValue(':street_address', $street_address);
+    $statement->bindValue(':city', $city);
+    $statement->bindValue(':late_fee_dues', $late_fee_dues);
     $statement->execute();
     $statement->closeCursor();
 }
 
 // user info table
-function deleteBook($title, $author)
+function deleteBook($user_id, $username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city, $late_fee_dues)
 {
     global $db;
-    $query = "DELETE FROM books_info WHERE title=:title AND author=:author";
+    $query = "DELETE FROM user_info WHERE user_id=:user_id";
     $statement = $db->prepare($query);
-    $statement->bindValue(':title', $title);
-    $statement->bindValue(':author', $author);
+    $statement->bindValue(':user_id', $user_id);
     $statement->execute();
     $statement->closeCursor();
 }
