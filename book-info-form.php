@@ -7,28 +7,28 @@ $book_to_update = null;
 ?>
 
 <?php
-// if ($_SERVER['REQUEST_METHOD'] == 'POST')
-// {
-//   if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Add') 
-//   {
-//       addFriend($_POST['name'], $_POST['major'], $_POST['year']);
-//       $list_of_friends = getAllFriends();  
-//   }
-//   else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Update')
-//   {
-//       $friend_to_update = getFriendByName($_POST['friend_to_update']);
-//   }
-//   else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Delete') 
-//   {
-//       deleteFriend($_POST['friend_to_delete']);
-//       $list_of_friends = getAllFriends();
-//   }
-//   if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Confirm update')
-//   {
-//     updateFriend($_POST['name'], $_POST['major'], $_POST['year']);
-//     $list_of_friends = getAllFriends();
-//   }
-// }
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Add') 
+  {
+      addBook($_POST['title'], $_POST['author'], $_POST['genre'], $_POST['avg_rating'], $_POST['quantity'], $_POST['in_stock']);
+      $list_of_books = getAllBooks();  
+  }
+  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Update')
+  {
+      $book_to_update = getBookByTitleAuthor($_POST['book_title_to_update'], $_POST['book_author_to_update']);
+  }
+  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Delete') 
+  {
+      deleteBook($_POST['book_title_to_delete'], $_POST['book_author_to_delete']);
+      $list_of_books = getAllBooks();
+  }
+  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Confirm update')
+  {
+    updateBook($_POST['title'], $_POST['author'], $_POST['genre'], $_POST['avg_rating'], $_POST['quantity'], $_POST['in_stock']);
+    $list_of_books = getAllBooks();
+  }
+}
 ?>
 
 <!DOCTYPE html>
