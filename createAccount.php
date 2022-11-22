@@ -1,3 +1,37 @@
+<?php
+require("connect-db.php");      // include("connect-db.php");
+require("account-db.php");
+
+//$list_all_user_info = getAllUserInfo();
+$user_to_update = null;      
+?>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Add') 
+  {
+      addBook();
+      $list_of_books = getAllBooks();  
+  }
+  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Update')
+  {
+      $book_to_update = getBookByTitleAuthor();
+  }
+  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Delete') 
+  {
+      deleteBook();
+      $list_of_books = getAllBooks();
+  }
+  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Confirm update')
+  {
+    updateBook();
+    $list_of_books = getAllBooks();
+  }
+}
+?>
+
+
 <!DOCTYPE html>
 <html>
     <style>
@@ -8,7 +42,7 @@
     </style>
 
     <body>
-        <?php include('header.html') ?> 
+        <?php include('header.php') ?> 
 
         <div class="container">
 

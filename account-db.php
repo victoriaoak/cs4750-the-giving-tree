@@ -62,14 +62,15 @@ function addCustomer($user_id, $ranking)
 }
 
 // get user information
-function getUserByID($user_id)
+function getUserByID($username, $pwd)
 {
     global $db;
-    $query = "SELECT * FROM user_info WHERE user_id = :user_id";
+    $query = "SELECT * FROM user_info WHERE username = :username AND pwd = :pwd";
 
     try {
         $statement = $db->prepare($query);
-        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':username', $username);
+        $statement->bindValue(':pwd', $pwd);
         $statement->execute();
         $result = $statement->fetch();
         $statement->closeCursor();
