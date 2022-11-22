@@ -14,20 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       addBook($_POST['title'], $_POST['author'], $_POST['genre'], $_POST['avg_rating'], $_POST['quantity'], $_POST['in_stock']);
       $list_of_books = getAllBooks();  
   }
-  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Update')
-  {
-      $book_to_update = getBookByTitleAuthor($_POST['book_title_to_update'], $_POST['book_author_to_update']);
-  }
-  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Delete') 
-  {
-      deleteBook($_POST['book_title_to_delete'], $_POST['book_author_to_delete']);
-      $list_of_books = getAllBooks();
-  }
-  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Confirm update')
-  {
-    updateBook($_POST['book_title_update'], $_POST['book_author_update'], $_POST['genre'], $_POST['book_rating_update'], $_POST['quantity'], $_POST['in_stock']);
-    $list_of_books = getAllBooks();
-  }
 }
 ?>
 
@@ -45,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </head>
 
 <body>
-<?php include('header.html') ?> 
+<?php include('header.php') ?> 
 
 
 <div class="container">

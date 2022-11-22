@@ -8,18 +8,25 @@
   <title>The Giving Tree</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="icon" type="image/png" href="http://www.cs.virginia.edu/~up3f/cs4750/images/db-icon.png" />
+  <link rel="icon" type="image/png" href="./icon/favicon-32x32.png" />
 </head>
 
+<style>
+  .hero_image {
+    max-width: 100%;
+  }
+</style>
+
 <body>
-<?php include('header.html') ?> 
+<?php include('header.php') ?> 
 
 
 <div class="container">
   <h1>The Giving Tree</h1>  
 
+</div> 
 
-</div>    
+<img class="hero_image" src="./images/books.jpg" alt="lots of books">
 
 <?php include('footer.html') ?>
 

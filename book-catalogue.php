@@ -3,7 +3,8 @@ require("connect-db.php");      // include("connect-db.php");
 require("book-db.php");
 
 $list_of_books = getAllBooks();
-$book_to_update = null;      
+$book_to_update = null;  
+$book_to_rent = null;    
 ?>
 
 <?php
@@ -23,6 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       deleteBook($_POST['book_title_to_delete'], $_POST['book_author_to_delete']);
       $list_of_books = getAllBooks();
   }
+  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Rent')
+  {
+      $book_to_rent = getBookByTitleAuthor($_POST['book_title_to_rent'], $_POST['book_author_to_rent']);
+  }
   if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Confirm update')
   {
     updateBook($_POST['book_title_update'], $_POST['book_author_update'], $_POST['genre'], $_POST['book_rating_update'], $_POST['quantity'], $_POST['in_stock']);
@@ -40,11 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <title>Book Catalogue</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="icon" type="image/png" href="http://www.cs.virginia.edu/~up3f/cs4750/images/db-icon.png" />
+  <link rel="icon" type="image/png" href="./icon/favicon-32x32.png" />
 </head>
 
 <body>
-<?php include('header.html') ?> 
+<?php include('header.php') ?> 
 
 
 <div class="container">
@@ -71,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <th><b>Update?</b></th>
     <th><b>Delete?</b></th>
     <th><b>Rate?</b></th>
-    <th><b>Checkout?</b></th>
+    <th><b>Rent?</b></th>
   </tr>
   </thead>
 <?php foreach ($list_of_books as $book_info): ?>
@@ -93,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </form>
      </td>
      <td>
-        <form action="book-catalogue.php" method="post">
+        <form action="book-catalogue.php" method="post" onclick="return confirm('Are you sure you want to delete this book?');">
           <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" 
                 title="Click to remove this book from the database" />
           <input type="hidden" name="book_title_to_delete" 
@@ -111,11 +116,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </form>
      </td>
      <td>
-        <form action="book-catalogue.php" method="post">
-          <input type="submit" value="Checkout" name="btnAction" class="btn btn-success" 
+        <form action="rent-form.php" method="post">
+          <input type="submit" value="Rent" name="btnAction" class="btn btn-success" 
                 title="Click to rent out this book" />
-          <input type="hidden" name="book_to_rent" 
-                value="<?php echo $book_info['title'], $book_info['author']; ?>" />                
+          <input type="hidden" name="book_title_to_rent" 
+                value="<?php echo $book_info['title']; ?>" />
+          <input type="hidden" name="book_author_to_rent" 
+                value="<?php echo $book_info['author']; ?>" />              
         </form>
      </td>
   </tr>
