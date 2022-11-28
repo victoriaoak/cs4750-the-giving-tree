@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
       //addBook();
       $list_user_info = getUserByID($_POST['username'], $_POST['pwd']);
+      $customer_rank = getCustomerRank($_POST['username'], $_POST['password']);
       echo $list_user_info['user_id']; 
       echo $list_user_info['username']; 
       echo $list_user_info['pwd'];  
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             <h1>Sign In</h1>  
             <h3>Don't have an account? Create one <a href="createAccount.php" style="color:dodgerblue">here</a>.</h3>
 
-            <form name="loginForm" action="login.php" method="post">   
+            <form name="loginForm" action="accountInfo.php" method="post">   
                 <div class="row mb-3 mx-3">
                     Username*
                     <input type="text" class="form-control" name="username" required/>            
@@ -60,8 +61,9 @@ function authenticate()
       if (password_verify($pwd, $hash))
       {  
          // successfully login, redirect a user to the main page
-         header("Location: ".$mainpage);
          echo "success";
+         $list_user_info = getUserByID($_POST['username'], $_POST['pwd']);
+         header("Location: ".$mainpage);
       }
       else       
          echo "<span class='msg'>Username and password do not match our record</span> <br/>";

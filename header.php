@@ -33,6 +33,9 @@
         </form>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
+              <a class="nav-link" href="submit-request.php">Submit a Request</a>
+          </li>
+          <li class="nav-item">
               <a class="nav-link" href="accountInfo.php">Account Information</a>
           </li>
           <li class="nav-item">
