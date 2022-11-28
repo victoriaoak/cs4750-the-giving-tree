@@ -3,7 +3,6 @@
 <?php
 require("connect-db.php");
 require("account-db.php");
-require("vars.php");
 
 $list_user_info = null;
 ?>
@@ -14,8 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Sign_in') 
   {
       $list_user_info = getUserByID($_POST['username'], $_POST['password']);
-      $logged_in = true;
-    //   echo $logged_in;
   }
 }
 ?>
@@ -66,6 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 <h3><b>Email: </b><?php echo $list_user_info['email'] ?></h3>
                 <h3><b>Phone Number: </b><?php echo $list_user_info['phone_number'] ?></h3>
                 <h3><b>Address: </b></h3>
+                <br/>
+                <?php echo "<h3><b>Rank:</b>"; ?>
+                 
             </Row>
             <br/>
             <Row id="checkout">

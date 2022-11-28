@@ -1,7 +1,3 @@
-<?php
-require ('vars.php');
-?>
-
 <head>
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,13 +33,10 @@ require ('vars.php');
         </form>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-              <?php echo $logged_in ?>
-              <?php if ($logged_in) { echo '<a class="nav-link" href="accountInfo.php">Account Information</a>'; }  
-                    else {echo '<a class="nav-link"  href="accountInfo.php">Account Information</a>';} ?>
+              <a class="nav-link" href="accountInfo.php">Account Information</a>
           </li>
           <li class="nav-item">
-              <?php if ($logged_in) { echo '<a class="nav-link" href="homepage.php">Log Out</a>'; }  
-                    else {echo '<a class="nav-link" href="login.php">Log In</a>';} ?>
+              <a class="nav-link" href="login.php">Log In</a> 
               
           </li>
         </ul>
