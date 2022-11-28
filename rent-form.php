@@ -37,48 +37,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <h1>Rent a Book</h1>  
     <hr>
 <form name="mainForm" action="book-catalogue.php" method="post">
-  <h3> Book Information </h3>
+  <h3> <b> Book Information </b> </h3>
   <div class="row mb-3 mx-3">
     Title:
-    <input type="text" class="form-control" name="title" disabled 
-          value="<?php if ($book_to_rent!=null) echo $book_to_rent['title'] ?>"
-    />   
+    <?php if ($book_to_rent!=null) echo $book_to_rent['title'] ?>
+     
     <input type="hidden" name="book_title_update" 
                 value="<?php echo $book_to_rent['title']; ?>" />         
   </div>  
   <div class="row mb-3 mx-3">
     Author:
-    <input type="text" class="form-control" name="author" disabled 
-    value="<?php if ($book_to_rent!=null) echo $book_to_rent['author'] ?>"
-    /> 
+    <?php if ($book_to_rent!=null) echo $book_to_rent['author'] ?> 
     <input type="hidden" name="book_author_update" 
                 value="<?php echo $book_to_rent['author']; ?>" />           
   </div>
   <div class="row mb-3 mx-3">
     Genre:
-    <input type="text" class="form-control" name="genre" disabled
-    value="<?php if ($book_to_rent!=null) echo $book_to_rent['genre'] ?>"
-    />            
+    <?php if ($book_to_rent!=null) echo $book_to_rent['genre'] ?>
   </div>  
   <div class="row mb-3 mx-3">
     Average Rating:
-    <input type="number" max="5" min="0" step="0.01" class="form-control" name="avg_rating" disabled
-    value="<?php if ($book_to_rent!=null) echo $book_to_rent['avg_rating'] ?>"
-    />
+    <?php if ($book_to_rent!=null) echo $book_to_rent['avg_rating'] ?>
     <input type="hidden" name="book_rating_update" 
                 value="<?php echo $book_to_rent['avg_rating']; ?>" />            
   </div>
   <div class="row mb-3 mx-3">
     Quantity:
-    <input type="number" min="0" class="form-control" name="quantity" disabled
-    value="<?php if ($book_to_rent!=null) echo $book_to_rent['quantity'] ?>"
-    />            
+    <?php if ($book_to_rent!=null) echo $book_to_rent['quantity'] ?>
   </div>
   <div class="row mb-3 mx-3">
     In Stock:
-    <input type="number" max="1" min="0" class="form-control" name="in_stock" disabled
-    value="<?php if ($book_to_rent!=null) echo $book_to_rent['in_stock'] ?>"
-    />            
+    <?php if ($book_to_rent!=null) echo $book_to_rent['in_stock'] ?>
   </div>
   <br/>
   <hr>

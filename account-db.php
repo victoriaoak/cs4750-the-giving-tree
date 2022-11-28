@@ -46,7 +46,7 @@ function addCustomer($user_id, $ranking)
     try {
         $statement = $db->prepare($query);
         $statement->bindValue(':user_id', $user_id);
-        $statement->bindValue(':ranking', $ranking);
+        $statement->bindValue(':ranking', "newbie");
         $statement->execute();
         $statement->closeCursor();
     }
