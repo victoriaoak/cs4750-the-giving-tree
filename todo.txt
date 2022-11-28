@@ -1,0 +1,16 @@
+To-Do List
+- search
+- maybe filter
+- session/cookie
+- password hash
+- hosting on GCP
+- database level security
+- use rest of the tables
+  - customer
+  - admin
+  - address
+  - rent
+  - sequel
+  - manages
+  - ratings
+  - request
