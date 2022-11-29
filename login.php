@@ -12,11 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Sign_in') 
   {
       //addBook();
-      $list_user_info = getUserByID($_POST['username'], $_POST['pwd']);
+      $list_user_info = getUserByID($_POST['username'], $_POST['password']);
       $customer_rank = getCustomerRank($_POST['username'], $_POST['password']);
-      echo $list_user_info['user_id']; 
-      echo $list_user_info['username']; 
-      echo $list_user_info['pwd'];  
   }
 }
 

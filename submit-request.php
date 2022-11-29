@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
   if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Submit') 
   {
-      addRequest($_POST['admin_id'], $_POST['customer'], $_POST['request-text']);
+      addRequest($_POST['customer'], $_POST['admin_id'], $_POST['request-text']);
   }
 }
 ?>

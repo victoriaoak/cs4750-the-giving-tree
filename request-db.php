@@ -1,5 +1,7 @@
 <?php 
 
+$request_id = 103;
+
 function getAdminNameRole()
 {
     global $db;
@@ -23,27 +25,36 @@ function getAdminNameRole()
     return $result;
 }
 
-function addRequest($admin_id, $customer_id, $request)
+function addRequest($customer_id, $admin_id, $request)
 {
     global $db;
-    $query = "INSERT INTO request VALUES (:admin_id, :customer_id, :request)";  
+    global $request_id;
+    $query = "INSERT INTO request VALUES (:customer_id, :admin_id, :request_id, :request)"; 
     try {
         $statement = $db->prepare($query);
-        $statement->bindValue(':admin_id', $admin_id);
         $statement->bindValue(':customer_id', $customer_id);
+        $statement->bindValue(':admin_id', $admin_id);
+        $statement->bindValue(':request_id', $request_id);
         $statement->bindValue(':request', $request);
         $statement->execute();
         $statement->closeCursor();
     }
     catch (PDOException $e) 
     {
-        if ($statement->rowCount() == 0)
+        if ($statement->rowCount() == 0) {
             echo "Failed to submit request <br/>";
+            echo $customer_id;
+            echo $admin_id;
+            echo $request_id;
+            echo $request;
+        }
     }
     catch (Exception $e)
     {
         echo $e->getMessage();
     }
+    $request_id++; 
+    echo $request_id;
 }
 
 ?>
