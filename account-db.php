@@ -110,6 +110,55 @@ function getCustomerRank($username, $pwd)
     return $result;
 }
 
+function getAdminSpecific($username, $pwd)
+{
+    global $db;
+    $query = "SELECT admin_role, salary FROM user_info NATURAL JOIN admin_info NATURAL JOIN admin_role WHERE username = :username AND pwd = :pwd";
+
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':username', $username);
+        $statement->bindValue(':pwd', $pwd);
+        $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e)
+    {
+        if ($statement->rowCount() == 0) {
+            echo $user_id . "is not found <br/>";
+        } else {
+            var_dump($result);
+        }
+    }
+    return $result;
+}
+
+function getBooksCheckedOut($username, $pwd)
+{
+    global $db;
+    $query = "SELECT title, author, is_returned, due_date FROM orders NATURAL JOIN rents NATURAL JOIN user_info 
+                WHERE username = :username AND pwd = :pwd";
+
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':username', $username);
+        $statement->bindValue(':pwd', $pwd);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e)
+    {
+        if ($statement->rowCount() == 0) {
+            echo $user_id . "is not found <br/>";
+        } else {
+            var_dump($result);
+        }
+    }
+    return $result;
+}
+
 // user info table only
 function updateUser($user_id, $username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city, $late_fee_dues)
 {

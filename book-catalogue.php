@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      <td><?php echo $book_info['genre']; ?></td> 
      <td><?php echo $book_info['avg_rating']; ?></td>
      <td><?php echo $book_info['quantity']; ?></td>
-     <td><?php echo $book_info['in_stock']; ?></td>                     
+     <td><?php if ($book_info['in_stock']==0) {echo "No";} else {echo "Yes";} ?></td>
      <td>
         <form action="book-update-form.php" method="post">
           <input type="submit" value="Update" name="btnAction" class="btn btn-primary" 
