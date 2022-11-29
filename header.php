@@ -41,10 +41,10 @@
 
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-              <a class="nav-link" href="submit-request.php">Submit a Request</a>
+              <?php if (isset($_COOKIE['user']) && isset($_COOKIE['pwd'])) {?> <a class="nav-link" href="submit-request.php">Submit a Request</a> <?php }?>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="accountInfo.php">Account Information</a>
+              <?php if (isset($_COOKIE['user']) && isset($_COOKIE['pwd'])) {?> <a class="nav-link" href="accountInfo.php">Account Information</a> <?php }?>
           </li>
           <li class="nav-item" style = "padding-right: 20px;">
               <?php if (isset($_COOKIE['user']) && isset($_COOKIE['pwd'])) {?> <a class="nav-link" href="logout.php">Log Out</a> <?php }?>
