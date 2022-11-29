@@ -30,9 +30,9 @@
 ////////////////////////////////////////////
 
 /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on local XAMPP) **/
-$username = 'root';
-$password = 'ViolinOkTree5678!';
-$host = 'localhost:3306';
+$username = 'cs4750user';
+$password = 'CSdbproj#1';
+$host = 'localhost';
 $dbname = 'library1';
 $dsn = "mysql:host=$host;dbname=$dbname";  
 ////////////////////////////////////////////

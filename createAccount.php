@@ -66,11 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                         <label for="age">Age</label>
                         <input type="text" class="form-control"required/> 
                     </div>
+                    </br></br></br></br>
 
-                    <div style:cela>
                     <label for="email">Email</label>
                     <input type="text" placeholder="ex.someone@gmail.com"class="form-control"required/> 
-    </div>
                     </br>  
 
                     <label for="phone">Phone Number</label>
@@ -94,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                         <label for="zip">Zip Code</label>
                         <input type="text" class="form-control"required/>
                     </div>
+                    </br></br></br></br>
 
                     <label for="createuser">Create Username</label>
                     <input type="text" class="form-control"required/> 
