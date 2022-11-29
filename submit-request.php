@@ -1,9 +1,10 @@
 <?php
 require("connect-db.php");      // include("connect-db.php");
 require("request-db.php");
+require("account-db.php");
 
 $list_of_admin = getAdminNameRole();
-echo $list_of_admin[0];
+$customer_info = getUserByID($_COOKIE['user'], $_COOKIE['pwd']);
 ?>
 
 
@@ -24,22 +25,39 @@ echo $list_of_admin[0];
 
 <?php include('header.php') ?> 
 
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Submit') 
+  {
+      addRequest($_POST['admin_id'], $_POST['customer'], $_POST['request-text']);
+  }
+}
+?>
 
 <div class="container">
   <h1>Submit a Request</h1>  
 
-<form name="mainForm" action="homepage.php" method="post">    
+<form name="mainForm" action="submit-request.php" method="post"> 
+  <div class="row mb-3 mx-3">
+    From:
+    <input type="text" class="form-control"
+    value="<?php echo $customer_info['first_name']. " ". $customer_info['last_name'] ?>" disabled />
+    <input type="hidden" name="customer" 
+                value="<?php echo $customer_info['user_id']; ?>" />  
+  </div>     
   <div class="row mb-3 mx-3">
     For:
-    <select class="form-control">
-        <!-- <?php foreach ($list_of_admin as $admin):?>
-            <option><?php echo $admin['first_name'] + ' ' + $admin['last_name'] + ' - ' + $admin['admin_role'];?></option> -->
-            <option>select</option>
+    <select class="form-control" name="admin_id">
+        <?php foreach($list_of_admin as $admin) { ?>
+            <option value="<?php echo $admin['admin_id']?>">
+            <?php echo $admin['first_name'].' '.$admin['last_name'].' - '.$admin['admin_role']?> </option> 
+        <?php } ?>
     </select>          
   </div>  
   <div class="form-group mb-3 mx-3">
     <label for="exampleFormControlTextarea1">Request:</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" name="request-text"></textarea>
   </div>        
   <div>
     <input type="submit" value="Submit" name="btnAction" class="btn btn-lg btn-success" 

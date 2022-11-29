@@ -19,6 +19,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       echo $list_user_info['pwd'];  
   }
 }
+
+function authenticate()
+{
+   global $mainpage;
+   
+   if ($_SERVER['REQUEST_METHOD'] == 'POST')
+   {
+      $hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
+      // htmlspecialchars() stops script tags from being able to be executed and renders them as plaintext
+      $pwd = htmlspecialchars(trim($_POST['password'])); 
+      // successfully login, redirect a user to the main page
+      $user = trim($_POST['username']);
+
+      setcookie('random', "testing1");
+      setcookie('user', $user);
+              
+      setcookie('pwd', $_POST['password']);    // password_hash() requires at least PHP5.5
+    
+      if (password_verify($pwd, $hash))
+      {  
+        $list_user_info = getUserByID($_COOKIE['user'], $_COOKIE['pwd']);
+        $customer_rank = getCustomerRank($_COOKIE['user'], $_COOKIE['pwd']);                   
+        // Redirect the browser to another page using the header() function to specify the target URL
+        header("Location: ".$mainpage);
+         
+      }
+      else       
+         echo "<span class='msg'>Username and password do not match our record</span> <br/>";
+   }	
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             <h1>Sign In</h1>  
             <h3>Don't have an account? Create one <a href="createAccount.php" style="color:dodgerblue">here</a>.</h3>
 
-            <form name="loginForm" action="accountInfo.php" method="post">   
+            <form name="loginForm" action="login.php" method="post">   
                 <div class="row mb-3 mx-3">
                     Username*
                     <input type="text" class="form-control" name="username" required/>            
@@ -48,28 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     </body>
 
 <?php
-function authenticate()
-{
-   global $mainpage;
-   
-   if ($_SERVER['REQUEST_METHOD'] == 'POST')
-   {
-      $hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
-      // htmlspecialchars() stops script tags from being able to be executed and renders them as plaintext
-      $pwd = htmlspecialchars($_POST['password']);      
-    
-      if (password_verify($pwd, $hash))
-      {  
-         // successfully login, redirect a user to the main page
-         echo "success";
-         $list_user_info = getUserByID($_POST['username'], $_POST['pwd']);
-         header("Location: ".$mainpage);
-      }
-      else       
-         echo "<span class='msg'>Username and password do not match our record</span> <br/>";
-   }	
-}
-
 $mainpage = "accountInfo.php";   
 authenticate();
 ?>

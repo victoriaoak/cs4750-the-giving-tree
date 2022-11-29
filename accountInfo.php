@@ -4,19 +4,9 @@
 require("connect-db.php");
 require("account-db.php");
 
-$list_user_info = null;
-$customer_rank = null;
-?>
+$list_user_info = getUserByID($_COOKIE['user'], $_COOKIE['pwd']);
+$customer_rank = getCustomerRank($_COOKIE['user'], $_COOKIE['pwd']);
 
-<?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Sign_in') 
-  {
-      $list_user_info = getUserByID($_POST['username'], $_POST['password']);
-      $customer_rank = getCustomerRank($_POST['username'], $_POST['password']);
-  }
-}
 ?>
 
 <html>
