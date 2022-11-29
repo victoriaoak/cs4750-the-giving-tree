@@ -7,6 +7,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="icon" type="image/png" href="icon/favicon-32x32.png" />
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
 </head>
 
 <header>  
@@ -27,23 +32,26 @@
             <a class="nav-link" href="book-catalogue.php" style="font-size:115%">Book Database</a>
           </li>
         </ul>
-        <form class="form-inline mx-auto">
-          <input class="form-control mr-sm-0" type="search" placeholder="Search for a book" aria-label="Search" style="width:150%">
-          <button class="btn btn-outline-success my-0 my-sm-0" type="submit">Search</button>
+
+        <form class="ms-auto" action="book-search.php">
+          <button class = "btn search-btn">
+            <i class="bi bi-search" style = "color:darkgray; font-size: 125%; padding-right: 10px;"></i>
+          </button>
         </form>
-        <ul class="navbar-nav ms-auto">
+
+        <ul class="navbar-nav mr-auto">
           <li class="nav-item">
               <a class="nav-link" href="submit-request.php">Submit a Request</a>
           </li>
           <li class="nav-item">
               <a class="nav-link" href="accountInfo.php">Account Information</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" style = "padding-right: 20px;">
               <?php if (isset($_COOKIE['user']) && isset($_COOKIE['pwd'])) {?> <a class="nav-link" href="logout.php">Log Out</a> <?php }?>
               <?php if (!isset($_COOKIE['user']) && !isset($_COOKIE['pwd'])) {?> <a class="nav-link" href="login.php">Log In</a> <?php }?>
-              
           </li>
         </ul>
+
       </div>
     </nav>
   </header>
