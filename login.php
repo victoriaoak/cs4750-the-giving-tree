@@ -12,11 +12,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Sign_in') 
   {
       //addBook();
-      $list_user_info = getUserByID($_POST['username'], $_POST['pwd']);
-      echo $list_user_info['user_id']; 
-      echo $list_user_info['username']; 
-      echo $list_user_info['pwd'];  
+      $list_user_info = getUserByID($_POST['username'], $_POST['password']);
+      $customer_rank = getCustomerRank($_POST['username'], $_POST['password']);
   }
+}
+
+function authenticate()
+{
+   global $mainpage;
+   
+   if ($_SERVER['REQUEST_METHOD'] == 'POST')
+   {
+      $hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
+      // htmlspecialchars() stops script tags from being able to be executed and renders them as plaintext
+      $pwd = htmlspecialchars(trim($_POST['password'])); 
+      // successfully login, redirect a user to the main page
+      $user = trim($_POST['username']);
+
+      setcookie('random', "testing1");
+      setcookie('user', $user);
+              
+      setcookie('pwd', $_POST['password']);    // password_hash() requires at least PHP5.5
+    
+      if (password_verify($pwd, $hash))
+      {  
+        $list_user_info = getUserByID($_COOKIE['user'], $_COOKIE['pwd']);
+        $customer_rank = getCustomerRank($_COOKIE['user'], $_COOKIE['pwd']);                   
+        // Redirect the browser to another page using the header() function to specify the target URL
+        header("Location: ".$mainpage);
+         
+      }
+      else       
+         echo "<span class='msg'>Username and password do not match our record</span> <br/>";
+   }	
 }
 ?>
 
@@ -47,27 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     </body>
 
 <?php
-function authenticate()
-{
-   global $mainpage;
-   
-   if ($_SERVER['REQUEST_METHOD'] == 'POST')
-   {
-      $hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
-      // htmlspecialchars() stops script tags from being able to be executed and renders them as plaintext
-      $pwd = htmlspecialchars($_POST['password']);      
-    
-      if (password_verify($pwd, $hash))
-      {  
-         // successfully login, redirect a user to the main page
-         header("Location: ".$mainpage);
-         echo "success";
-      }
-      else       
-         echo "<span class='msg'>Username and password do not match our record</span> <br/>";
-   }	
-}
-
 $mainpage = "accountInfo.php";   
 authenticate();
 ?>

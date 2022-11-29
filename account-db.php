@@ -65,7 +65,31 @@ function addCustomer($user_id, $ranking)
 function getUserByID($username, $pwd)
 {
     global $db;
-    $query = "SELECT * FROM user_info WHERE username = :username AND pwd = :pwd";
+    $query = "SELECT * FROM user_info NATURAL JOIN user_address WHERE username = :username AND pwd = :pwd";
+
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':username', $username);
+        $statement->bindValue(':pwd', $pwd);
+        $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e)
+    {
+        if ($statement->rowCount() == 0) {
+            echo $user_id . "is not found <br/>";
+        } else {
+            var_dump($result);
+        }
+    }
+    return $result;
+}
+
+function getCustomerRank($username, $pwd)
+{
+    global $db;
+    $query = "SELECT ranking FROM user_info NATURAL JOIN customer WHERE username = :username AND pwd = :pwd";
 
     try {
         $statement = $db->prepare($query);

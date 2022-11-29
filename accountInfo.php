@@ -4,17 +4,9 @@
 require("connect-db.php");
 require("account-db.php");
 
-$list_user_info = null;
-?>
+$list_user_info = getUserByID($_COOKIE['user'], $_COOKIE['pwd']);
+$customer_rank = getCustomerRank($_COOKIE['user'], $_COOKIE['pwd']);
 
-<?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Sign_in') 
-  {
-      $list_user_info = getUserByID($_POST['username'], $_POST['password']);
-  }
-}
 ?>
 
 <html>
@@ -62,9 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 <h3><b>Age: </b><?php echo $list_user_info['age'] ?> </h3>
                 <h3><b>Email: </b><?php echo $list_user_info['email'] ?></h3>
                 <h3><b>Phone Number: </b><?php echo $list_user_info['phone_number'] ?></h3>
-                <h3><b>Address: </b></h3>
+                <h3><b>Address: </b><?php echo $list_user_info['street_address'], " ", $list_user_info['city'], " ", 
+                    $list_user_info['state'], " ", $list_user_info['zip_code'] ?> </h3>
                 <br/>
-                <?php echo "<h3><b>Rank:</b>"; ?>
+                <h3><b>Rank:</b> <?php if ($customer_rank['ranking'] != null) {echo $customer_rank['ranking'];}?> </h3>
                  
             </Row>
             <br/>
