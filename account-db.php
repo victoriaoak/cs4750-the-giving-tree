@@ -1,5 +1,16 @@
 <?php
 
+function getAllUserInfo()
+{
+    global $db;
+    $query = "SELECT * FROM user_info";
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $result = $statement->fetchAll();
+    $statement->closeCursor();
+    return $result;
+}
+
 // TODO:
 // insert into user_address function - Hannah
 // insert into admin_info function - Hannah 

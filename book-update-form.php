@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </head>
 
 <body>
-<?php include('header.html') ?> 
+<?php include('header.php') ?> 
 
 
 <div class="container">
