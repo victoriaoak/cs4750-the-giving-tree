@@ -1,20 +1,23 @@
 <?php
 
-// TODO:
-// insert into user_address function - Hannah
-// insert into admin_info function - Hannah 
-// insert into customer function - Victoria
-// getUserByID - Victoria
-// updateUser - Joanne
-// deleteUser - Joanne
+function getAllUserInfo()
+{
+    global $db;
+    $query = "SELECT * FROM user_info";
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $result = $statement->fetchAll();
+    $statement->closeCursor();
+    return $result;
+}
 
-function addUser($user_id, $username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city, $late_fee_dues)
+function addUser($username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city)
 {
     global $db;
     $query = "INSERT INTO user_info VALUES (:user_id, :username, :pwd, :first_name, :last_name, :age, :email, :phone_number, :street_address, :city, :late_fee_dues)";  
     try {
         $statement = $db->prepare($query);
-        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':user_id', rand());
         $statement->bindValue(':username', $username);
         $statement->bindValue(':pwd', $pwd);
         $statement->bindValue(':first_name', $first_name);
@@ -24,7 +27,7 @@ function addUser($user_id, $username, $pwd, $first_name, $last_name, $age, $emai
         $statement->bindValue(':phone_number', $phone_number);
         $statement->bindValue(':street_address', $street_address);
         $statement->bindValue(':city', $city);
-        $statement->bindValue(':late_fee_dues', $late_fee_dues);
+        $statement->bindValue(':late_fee_dues', 0.00);
         $statement->execute();
         $statement->closeCursor();
     }
@@ -38,6 +41,7 @@ function addUser($user_id, $username, $pwd, $first_name, $last_name, $age, $emai
         echo $e->getMessage();
     }
 }
+
 
 function addCustomer($user_id, $ranking) 
 {

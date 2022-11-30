@@ -2,31 +2,19 @@
 require("connect-db.php");      // include("connect-db.php");
 require("account-db.php");
 
-//$list_all_user_info = getAllUserInfo();
+$list_all_user_info = getAllUserInfo();
 $user_to_update = null;      
 ?>
 
 <?php
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Add') 
+  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Create') 
   {
-      addBook();
-      $list_of_books = getAllBooks();  
-  }
-  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Update')
-  {
-      $book_to_update = getBookByTitleAuthor();
-  }
-  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Delete') 
-  {
-      deleteBook();
-      $list_of_books = getAllBooks();
-  }
-  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Confirm update')
-  {
-    updateBook();
-    $list_of_books = getAllBooks();
+      addUser($_POST['username'], $_POST['pwd'], $_POST['first_name'], $_POST['last_name'], $_POST['age'], $_POST['email'],  $_POST['phone_number'],  $_POST['street_address'], $_POST['city']);
+      addAddress($_POST['street_address'], $_POST['city'], $_POST['state'], $_POST['zip_code']);
+      $list_all_user_info = getAllUserInfo();
   }
 }
 ?>
@@ -41,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         }
     </style>
 
+
     <body>
         <?php include('header.php') ?> 
 
@@ -49,67 +38,97 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             <form name="AccountForm" action="homepage.php" method="post"> 
                 <h1>Create an account</h1>  
                 <div>  
-                    <label for="firstname">First Name</label>
-                    <input type="text" class="form-control"required/> 
-                    </br>   
+                    <div class="row mb-3 mx-3">
+                        First Name:
+                        <input type="text" class="form-control" name="first_name" required
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['first_name'] ?>"
+                        />            
+                    </div>  
 
-                    <label for="lastname">Last Name</label>
-                    <input type="text" class="form-control"required/> 
-                    </br>    
+                    <div class="row mb-3 mx-3">
+                        Last Name:
+                        <input type="text" class="form-control" name="last_name" required
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['last_name'] ?>"
+                        />            
+                    </div>  
 
-                    <div style="float:left;">
-                        <label for="DOB">Date of Birth</label>
-                        <input type="text" placeholder="mm/dd/yyy"class="form-control"required/> 
-                    </div>
+                    <div class="row mb-3 mx-3" style="float:left;">
+                        Age:
+                        <input type="text" class="form-control" name="age" required
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['age'] ?>"
+                        />            
+                    </div>  
 
-                    <div style="float:left;">
-                        <label for="age">Age</label>
-                        <input type="text" class="form-control"required/> 
-                    </div>
-                    </br></br></br></br>
+                    <div class="row mb-3 mx-3" style="float:left;">
+                        Email:
+                        <input type="text" class="form-control" name="email" placeholder="ex. someone@gmail.com" required
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['email'] ?>"
+                        />            
+                    </div>  
 
-                    <label for="email">Email</label>
-                    <input type="text" placeholder="ex.someone@gmail.com"class="form-control"required/> 
-                    </br>  
+                    <div class="row mb-3 mx-3">
+                        Phone Number:
+                        <input type="text" class="form-control" name="phone_number" placeholder="XXX-XXX-XXXX"
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['phone_number'] ?>"
+                        />            
+                    </div>  
 
-                    <label for="phone">Phone Number</label>
-                    <input type="text" placeholder="XXX-XXX-XXXX"class="form-control"required/> 
-                    </br>  
+                    <div class="row mb-3 mx-3">
+                        Street Address:
+                        <input type="text" class="form-control" name="street_address" required
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['street_address'] ?>"
+                        />            
+                    </div>   
 
-                    <label for="street">Street Address</label>
-                    <input type="text" class="form-control"required/> 
-                    </br>  
+                    <div class="row mb-3 mx-3" style="float:left;">
+                        City:
+                        <input type="text" class="form-control" name="city" required
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['city'] ?>"
+                        />            
+                    </div>  
 
-                    <label for="city">City</label>
-                    <input type="text" class="form-control"required/> 
-                    </br>  
+                    <div class="row mb-3 mx-3" style="float:left;">
+                        State:
+                        <input type="text" class="form-control" name="state" placeholder="ex. VA" required
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['state'] ?>"
+                        />            
+                    </div> 
+                    
+                    <div class="row mb-3 mx-3">
+                        Zip Code:
+                        <input type="text" class="form-control" name="zip_code" required
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['zip_code'] ?>"
+                        />            
+                    </div> 
 
-                    <div style="float:left;">
-                        <label for="state">State</label>
-                        <input type="text" class="form-control"required/> 
-                    </div>
-
-                    <div style="float:left;">
-                        <label for="zip">Zip Code</label>
-                        <input type="text" class="form-control"required/>
-                    </div>
-                    </br></br></br></br>
-
-                    <label for="createuser">Create Username</label>
-                    <input type="text" class="form-control"required/> 
-                    </br>  
-
-                    <label for="createpassword">Create Password</label>
-                    <input type="text" class="form-control"required/> 
-                    </br></br>  
+                    <div class="row mb-3 mx-3">
+                        Username:
+                        <input type="text" class="form-control" name="username" required
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['username'] ?>"
+                        />            
+                    </div> 
+                    
+                    <div class="row mb-3 mx-3">
+                        Password:
+                        <input type="text" class="form-control" name="pwd" required
+                            value="<?php if ($user_to_update!=null) echo $user_to_update['pwd'] ?>"
+                        />            
+                    </div> 
 
                     <label>
                         <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> 
                         Click to agree to the <a href="#" style="color:dodgerblue">Terms & Conditions</a>.
                     </label>
+
+                    <div>
+                        <input type="submit" value="Create" name="btnAction" class="btn btn-lg btn-success" 
+                            title="Create Account" />            
+                    </div>  
+
+
                 </div>
-                
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Create Account</button>
+
+
             </form>   
         </div>    
 
