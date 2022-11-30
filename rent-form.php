@@ -46,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <div class="row mb-3 mx-3">
     Title:
     <?php if ($book_to_rent!=null) echo $book_to_rent['title'] ?>
-     
     <input type="hidden" name="book_title_update" 
                 value="<?php echo $book_to_rent['title']; ?>" />         
   </div>  

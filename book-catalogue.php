@@ -1,8 +1,10 @@
 <?php
 require("connect-db.php");      // include("connect-db.php");
 require("book-db.php");
+require("account-db.php");
 
 $list_of_books = getAllBooks();
+$user_id = getUserID($_COOKIE['user'], $_COOKIE['hash']);
 $book_to_update = null;  
 $book_to_rent = null;    
 ?>
@@ -32,6 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     updateBook($_POST['book_title_update'], $_POST['book_author_update'], $_POST['genre'], $_POST['book_rating_update'], $_POST['quantity'], $_POST['in_stock']);
     $list_of_books = getAllBooks();
+  } 
+  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Rate') 
+  {
+      addRating($_POST['book_title_rate'], $_POST['book_author_rate'], $user_id['user_id']);
+      addRatingDetail($user_id['user_id'], $_POST['book_title_rate'], $_POST['book_author_rate'], $_POST['stars']);
+      $list_of_books = getAllBooks();
   }
 }
 ?>
@@ -80,11 +88,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      <td><?php echo $book_info['quantity']; ?></td>
      <td><?php if ($book_info['in_stock']==0) {echo "No";} else {echo "Yes";} ?></td>
      <td>
-        <form action="book-catalogue.php" method="post">
           <input type="submit" value="Rate" name="btnAction" class="btn btn-warning" 
                 title="Click to rate this book" />
-          <input type="hidden" name="book_to_rate" 
-                value="<?php echo $book_info['title'], $book_info['author']; ?>" />                
+          <input type="hidden" name="book_title_to_rate" 
+                value="<?php echo $book_info['title']; ?>" />
+          <input type="hidden" name="book_author_to_rate" 
+                value="<?php echo $book_info['author']; ?>" />                 
         </form>
      </td>
      <td>

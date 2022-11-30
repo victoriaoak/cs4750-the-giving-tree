@@ -89,4 +89,104 @@ function deleteBook($title, $author)
     $statement->execute();
     $statement->closeCursor();
 }
+
+function addRating($title, $author, $user_id)
+{
+    global $db;
+    $rating_id = rand();
+    $query = "INSERT INTO rating VALUES (:rating_id, :user_id, :title, :author)";  
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':rating_id', $rating_id);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':author', $author);
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to add rating <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
+function addRatingDetail($user_id, $title, $author, $stars)
+{
+    global $db;
+    $query = "INSERT INTO rating_details VALUES (:user_id, :title, :author, :stars)";  
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':author', $author);
+        $statement->bindValue(':stars', $stars);
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to add rating detail <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
+function getRatingDetail($user_id, $title, $author)
+{
+    global $db;
+    $query = "SELECT * FROM rating_details WHERE user_id=:user_id AND title=:title AND author=:author";  
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':author', $author);
+        $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        echo $user_id . " ";
+        echo $title . " ";
+        echo $author . " ";
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to get rating detail <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
+function deleteRating($title, $author, $user_id)
+{
+    global $db;
+    $query = "DELETE FROM rating WHERE title=:title AND author=:author AND user_id=:user_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':title', $title);
+    $statement->bindValue(':author', $author);
+    $statement->bindValue(':user_id', $user_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function deleteRatingDetail($title, $author, $user_id)
+{
+    global $db;
+    $query = "DELETE FROM rating_details WHERE title=:title AND author=:author AND user_id=:user_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':title', $title);
+    $statement->bindValue(':author', $author);
+    $statement->bindValue(':user_id', $user_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
 ?>

@@ -4,6 +4,7 @@
 <?php
 require("connect-db.php");
 require("account-db.php");
+require("book-db.php");
 
 $list_user_info = getUserByID($_COOKIE['user'], $_COOKIE['hash']);
 $customer_rank = getCustomerRank($_COOKIE['user'], $_COOKIE['hash']);
@@ -11,6 +12,13 @@ $admin_specifics = getAdminSpecific($_COOKIE['user'], $_COOKIE['hash']);
 $books_checked_out = getBooksCheckedOut($_COOKIE['user'], $_COOKIE['hash']);
 $user_id = getUserID($_COOKIE['user'], $_COOKIE['hash']);
 $book_ratings = getRatings($user_id['user_id']);
+
+if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Delete') 
+  {
+      deleteRating($_POST['rating_title_to_delete'], $_POST['rating_author_to_delete'], $user_id['user_id']);
+      deleteRatingDetail($_POST['rating_title_to_delete'], $_POST['rating_author_to_delete'], $user_id['user_id']);
+      $book_ratings = getRatings($user_id['user_id']);
+  }
 ?>
 
 <html>
@@ -90,11 +98,13 @@ $book_ratings = getRatings($user_id['user_id']);
                     <td><?php echo $book_info['due_date']; ?></td>
                     <td><?php if ($book_info['is_returned']==0) {echo "No";} else {echo "Yes";} ?></td>
                     <td>
-                        <form action="book-catalogue.php" method="post">
+                        <form action="rating-form.php" method="post">
                         <input type="submit" value="Rate" name="btnAction" class="btn btn-warning" 
                                 title="Click to rate this book" />
-                        <input type="hidden" name="book_to_rate" 
-                                value="<?php echo $book_info['title'], $book_info['author']; ?>" />                
+                        <input type="hidden" name="book_title_to_rate" 
+                                value="<?php echo $book_info['title']; ?>" />
+                        <input type="hidden" name="book_author_to_rate" 
+                                value="<?php echo $book_info['author']; ?>" />                
                         </form>
                     </td>
                 </tr>
@@ -114,7 +124,6 @@ $book_ratings = getRatings($user_id['user_id']);
                     <th width="40%"><b>Title</b></th>
                     <th width="30%"><b>Author</b></th> 
                     <th width="20%"><b>Rating</b></th>     
-                    <th><b>Update?</b></th>
                     <th><b>Delete?</b></th>
                 </tr>
                 </thead>
@@ -124,23 +133,13 @@ $book_ratings = getRatings($user_id['user_id']);
                     <td><?php echo $rating['author']; ?></td>
                     <td><?php echo $rating['stars']; ?></td>
                     <td>
-                        <form action="book-update-form.php" method="post">
-                        <input type="submit" value="Update" name="btnAction" class="btn btn-primary" 
-                                title="Click to update this book" />
-                        <input type="hidden" name="book_title_to_update" 
-                                value="<?php echo $book_info['title']; ?>" />
-                        <input type="hidden" name="book_author_to_update" 
-                                value="<?php echo $book_info['author']; ?>" />                 
-                        </form>
-                    </td>
-                    <td>
-                        <form action="book-catalogue.php" method="post" onclick="return confirm('Are you sure you want to delete this book?');">
+                        <form action="accountInfo.php" method="post" onclick="return confirm('Are you sure you want to delete this rating?');">
                         <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" 
-                                title="Click to remove this book from the database" />
-                        <input type="hidden" name="book_title_to_delete" 
-                                value="<?php echo $book_info['title']; ?>" />
-                        <input type="hidden" name="book_author_to_delete" 
-                                value="<?php echo $book_info['author']; ?>" />                   
+                                title="Click to remove this rating" />
+                        <input type="hidden" name="rating_title_to_delete" 
+                                value="<?php echo $rating['title']; ?>" />
+                        <input type="hidden" name="rating_author_to_delete" 
+                                value="<?php echo $rating['author']; ?>" />                   
                         </form>
                     </td>
                 </tr>
