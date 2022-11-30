@@ -88,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      <td><?php echo $book_info['quantity']; ?></td>
      <td><?php if ($book_info['in_stock']==0) {echo "No";} else {echo "Yes";} ?></td>
      <td>
+      <form action="rating-form.php" method="post">
           <input type="submit" value="Rate" name="btnAction" class="btn btn-warning" 
                 title="Click to rate this book" />
           <input type="hidden" name="book_title_to_rate" 
