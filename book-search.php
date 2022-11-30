@@ -13,6 +13,10 @@ try
         $statement->execute();
         $book_details = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
+        if ($statement->rowCount() == 0) {
+            echo '"'. $search . '"'." is not found <br/>";
+            
+        }
     }
 }
 catch (PDOException $e)
@@ -27,9 +31,9 @@ catch (PDOException $e)
 ?>
 
 <body>
-	<div class="container">
+	<div class="container" style="padding-top:20px;">
 	<h3><u>Search for a book or author</u></h3>
-	<br/><br/>
+	<br/>
 	<form class="form-horizontal" action="#" method="post">
         <div class="form-group">
             <div class="col-sm-4">
