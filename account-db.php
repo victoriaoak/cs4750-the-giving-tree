@@ -22,12 +22,13 @@ function getAllUserInfo()
 function addUser($username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city)
 {
     global $db;
+    $hash = password_hash($pwd, PASSWORD_BCRYPT);
     $query = "INSERT INTO user_info VALUES (:user_id, :username, :pwd, :first_name, :last_name, :age, :email, :phone_number, :street_address, :city, :late_fee_dues)";  
     try {
         $statement = $db->prepare($query);
         $statement->bindValue(':user_id', rand());
         $statement->bindValue(':username', $username);
-        $statement->bindValue(':pwd', $pwd);
+        $statement->bindValue(':pwd', $hash);
         $statement->bindValue(':first_name', $first_name);
         $statement->bindValue(':last_name', $last_name);
         $statement->bindValue(':age', $age);
