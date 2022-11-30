@@ -142,4 +142,28 @@ function addRatingDetail($user_id, $title, $author, $stars)
         echo $e->getMessage();
     }
 }
+
+function deleteRating($title, $author, $user_id)
+{
+    global $db;
+    $query = "DELETE FROM rating WHERE title=:title AND author=:author AND user_id=:user_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':title', $title);
+    $statement->bindValue(':author', $author);
+    $statement->bindValue(':user_id', $user_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function deleteRatingDetail($title, $author, $user_id)
+{
+    global $db;
+    $query = "DELETE FROM rating_details WHERE title=:title AND author=:author AND user_id=:user_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':title', $title);
+    $statement->bindValue(':author', $author);
+    $statement->bindValue(':user_id', $user_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
 ?>
