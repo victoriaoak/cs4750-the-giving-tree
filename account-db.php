@@ -185,7 +185,7 @@ function updateUser($user_id, $username, $pwd, $first_name, $last_name, $age, $e
 }
 
 // user info table
-function deleteBook($user_id, $username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city, $late_fee_dues)
+function deleteUser($user_id, $username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city, $late_fee_dues)
 {
     global $db;
     $query = "DELETE FROM user_info WHERE user_id=:user_id";
