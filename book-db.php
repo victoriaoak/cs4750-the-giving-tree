@@ -118,11 +118,7 @@ function addRating($title, $author, $user_id)
 function addRatingDetail($user_id, $title, $author, $stars)
 {
     global $db;
-    echo $user_id . " ";
-    echo $title . " ";
-    echo $author . " ";
-    echo $stars;
-    $query = "INSERT INTO rating VALUES (:user_id, :title, :author, :stars)";  
+    $query = "INSERT INTO rating_details VALUES (:user_id, :title, :author, :stars)";  
     try {
         $statement = $db->prepare($query);
         $statement->bindValue(':user_id', $user_id);
@@ -136,6 +132,33 @@ function addRatingDetail($user_id, $title, $author, $stars)
     {
         if ($statement->rowCount() == 0)
             echo "Failed to add rating detail <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
+function getRatingDetail($user_id, $title, $author)
+{
+    global $db;
+    $query = "SELECT * FROM rating_details WHERE user_id=:user_id AND title=:title AND author=:author";  
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':author', $author);
+        $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        echo $user_id . " ";
+        echo $title . " ";
+        echo $author . " ";
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to get rating detail <br/>";
     }
     catch (Exception $e)
     {

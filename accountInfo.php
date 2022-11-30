@@ -134,13 +134,13 @@ if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Delete')
                     <td><?php echo $rating['author']; ?></td>
                     <td><?php echo $rating['stars']; ?></td>
                     <td>
-                        <form action="book-update-form.php" method="post">
+                        <form action="rating-update-form.php" method="post">
                         <input type="submit" value="Update" name="btnAction" class="btn btn-primary" 
                                 title="Click to update this rating" />
-                        <input type="hidden" name="book_title_to_update" 
-                                value="<?php echo $book_info['title']; ?>" />
-                        <input type="hidden" name="book_author_to_update" 
-                                value="<?php echo $book_info['author']; ?>" />                 
+                        <input type="hidden" name="rating_title_to_update" 
+                                value="<?php echo $rating['title']; ?>" />
+                        <input type="hidden" name="rating_author_to_update" 
+                                value="<?php echo $rating['author']; ?>" />                 
                         </form>
                     </td>
                     <td>
@@ -148,9 +148,9 @@ if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Delete')
                         <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" 
                                 title="Click to remove this rating" />
                         <input type="hidden" name="rating_title_to_delete" 
-                                value="<?php echo $book_info['title']; ?>" />
+                                value="<?php echo $rating['title']; ?>" />
                         <input type="hidden" name="rating_author_to_delete" 
-                                value="<?php echo $book_info['author']; ?>" />                   
+                                value="<?php echo $rating['author']; ?>" />                   
                         </form>
                     </td>
                 </tr>
