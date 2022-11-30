@@ -4,9 +4,14 @@ require("book-db.php");
 require("account-db.php");
 
 $list_of_books = getAllBooks();
-$user_id = getUserID($_COOKIE['user'], $_COOKIE['hash']);
 $book_to_update = null;  
 $book_to_rent = null;    
+$admin_specifics = getAdminSpecific($_COOKIE['user'], $_COOKIE['hash']);
+?>
+
+<?php 
+if ($admin_specifics == 0)
+      header('Location: book-catalogue.php');
 ?>
 
 <?php
@@ -34,12 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     updateBook($_POST['book_title_update'], $_POST['book_author_update'], $_POST['genre'], $_POST['book_rating_update'], $_POST['quantity'], $_POST['in_stock']);
     $list_of_books = getAllBooks();
-  } 
-  else if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Rate') 
-  {
-      addRating($_POST['book_title_rate'], $_POST['book_author_rate'], $user_id['user_id']);
-      addRatingDetail($user_id['user_id'], $_POST['book_title_rate'], $_POST['book_author_rate'], $_POST['stars']);
-      $list_of_books = getAllBooks();
   }
 }
 ?>
@@ -62,6 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <div class="container">
 <h1>Book Catalogue</h1> 
+<div>
+    <form action="book-insert-form.php"> <br/>
+    Admin Actions: &ensp;
+        <button type="submit" class="btn btn-info" title="Admin: add a new book to the database">Add a Book</button>
+    </form>                   
+</div>
 <br/>
 
 
@@ -75,6 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <th width="15%"><b>Average Rating</b></th>
     <th width="15%"><b>Quantity</b></th>
     <th width="15%"><b>In Stock?</b></th>
+    <th><b>Update?</b></th>
+    <th><b>Delete?</b></th>
     <th><b>Rate?</b></th>
     <th><b>Rent?</b></th>
   </tr>
@@ -88,16 +95,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      <td><?php echo $book_info['quantity']; ?></td>
      <td><?php if ($book_info['in_stock']==0) {echo "No";} else {echo "Yes";} ?></td>
      <td>
-          <input type="submit" value="Rate" name="btnAction" class="btn btn-warning" 
-                title="Click to rate this book" />
-          <input type="hidden" name="book_title_to_rate" 
+        <form action="book-update-form.php" method="post">
+          <input type="submit" value="Update" name="btnAction" class="btn btn-primary" 
+                title="Click to update this book" />
+          <input type="hidden" name="book_title_to_update" 
                 value="<?php echo $book_info['title']; ?>" />
-          <input type="hidden" name="book_author_to_rate" 
+          <input type="hidden" name="book_author_to_update" 
                 value="<?php echo $book_info['author']; ?>" />                 
         </form>
      </td>
      <td>
-     <?php if (isset($_COOKIE['user']) && isset($_COOKIE['hash'])) {?> 
+        <form action="book-catalogue.php" method="post" onclick="return confirm('Are you sure you want to delete this book?');">
+          <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" 
+                title="Click to remove this book from the database" />
+          <input type="hidden" name="book_title_to_delete" 
+                value="<?php echo $book_info['title']; ?>" />
+          <input type="hidden" name="book_author_to_delete" 
+                value="<?php echo $book_info['author']; ?>" />                   
+        </form>
+     </td>
+     <td>
+        <form action="book-catalogue.php" method="post">
+          <input type="submit" value="Rate" name="btnAction" class="btn btn-warning" 
+                title="Click to rate this book" />
+          <input type="hidden" name="book_to_rate" 
+                value="<?php echo $book_info['title'], $book_info['author']; ?>" />                
+        </form>
+     </td>
+     <td>
         <form action="rent-form.php" method="post">
           <input type="submit" value="Rent" name="btnAction" class="btn btn-success" 
                 title="Click to rent out this book" />
@@ -106,13 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           <input type="hidden" name="book_author_to_rent" 
                 value="<?php echo $book_info['author']; ?>" />              
         </form>
-      <?php }?>
-      <?php if (!isset($_COOKIE['user']) && !isset($_COOKIE['hash'])) {?> 
-        <form action="login.php">
-          <input type="submit" value="Rent" name="btnAction" class="btn btn-success" 
-                title="Click to rent out this book" />            
-        </form>
-      <?php }?>
      </td>
   </tr>
 <?php endforeach; ?>

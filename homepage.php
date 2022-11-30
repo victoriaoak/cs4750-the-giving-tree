@@ -20,6 +20,19 @@
   }
 </style>
 
+<?php 
+require ('connect-db.php');
+require ('account-db.php');
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Create') 
+  {
+      addUser($_POST['username'], $_POST['pwd'], $_POST['first_name'], $_POST['last_name'], $_POST['age'], $_POST['email'],  $_POST['phone_number'],  $_POST['street_address'], $_POST['city']);
+      addAddress($_POST['street_address'], $_POST['city'], $_POST['state'], $_POST['zip_code']);
+      $list_all_user_info = getAllUserInfo();
+  }
+}?>
+
 <body>
 <?php include('header.php') ?> 
 

@@ -1,22 +1,26 @@
 <?php
 
-// TODO:
-// insert into user_address function - Hannah
-// insert into admin_info function - Hannah 
-// insert into customer function - Victoria
-// getUserByID - Victoria
-// updateUser - Joanne
-// deleteUser - Joanne
+function getAllUserInfo()
+{
+    global $db;
+    $query = "SELECT * FROM user_info";
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $result = $statement->fetchAll();
+    $statement->closeCursor();
+    return $result;
+}
 
 function addUser($username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city)
 {
     global $db;
+    $hash = password_hash($pwd, PASSWORD_BCRYPT);
     $query = "INSERT INTO user_info VALUES (:user_id, :username, :pwd, :first_name, :last_name, :age, :email, :phone_number, :street_address, :city, :late_fee_dues)";  
     try {
         $statement = $db->prepare($query);
         $statement->bindValue(':user_id', rand());
         $statement->bindValue(':username', $username);
-        $statement->bindValue(':pwd', $pwd);
+        $statement->bindValue(':pwd', $hash);
         $statement->bindValue(':first_name', $first_name);
         $statement->bindValue(':last_name', $last_name);
         $statement->bindValue(':age', $age);
@@ -254,6 +258,17 @@ function updateUser($user_id, $username, $pwd, $first_name, $last_name, $age, $e
     $statement->closeCursor();
 }
 
+// user info table
+function deleteUser($user_id, $username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city, $late_fee_dues)
+{
+    global $db;
+    $query = "DELETE FROM user_info WHERE user_id=:user_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':user_id', $user_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
 function addAddress($street_address, $city, $state, $zip_code)
 {
     global $db;
@@ -293,6 +308,56 @@ function addAdminInfo($user_id, $role)
     {
         if ($statement->rowCount() == 0)
             echo "Failed to add user <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
+function addRents($title, $author, $user_id)
+{
+    global $db;
+    $query = "INSERT INTO rents VALUES (:title, :author, :user_id, :is_returned)";  
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':author', $author);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':is_returned', 0);
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to add book rental <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
+function addOrders($user_id, $title, $author)
+{
+    global $db;
+    $query = "INSERT INTO orders VALUES (:order_id, :user_id, :due_date, :title, :author)";  
+    $due = Date('y:m:d', strtotime('+14 days'));
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':order_id', rand());
+        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':due_date', $due);
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':author', $author);
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to add order <br/>";
     }
     catch (Exception $e)
     {

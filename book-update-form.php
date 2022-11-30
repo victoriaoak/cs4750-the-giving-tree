@@ -1,9 +1,16 @@
 <?php
 require("connect-db.php");      // include("connect-db.php");
 require("book-db.php");
+require("account-db.php");
 
 $list_of_books = getAllBooks();
 $book_to_update = null;      
+$admin_specifics = getAdminSpecific($_COOKIE['user'], $_COOKIE['hash']);
+?>
+
+<?php 
+if ($admin_specifics == 0)
+      header('Location: book-catalogue.php');
 ?>
 
 <?php
@@ -30,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </head>
 
 <body>
-<?php include('header.html') ?> 
+<?php include('header.php') ?> 
 
 
 <div class="container">

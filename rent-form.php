@@ -1,6 +1,7 @@
 <?php
 require("connect-db.php");      // include("connect-db.php");
 require("book-db.php");
+require("account-db.php");
 
 $list_of_books = getAllBooks();
 // $book_to_update = null;      
@@ -12,9 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Rent')
   {
       $book_to_rent = getBookByTitleAuthor($_POST['book_title_to_rent'], $_POST['book_author_to_rent']);
+      $rent_user_info = getUserByID($_COOKIE['user'], $_COOKIE['hash']);
+      addRents($book_to_rent['title'], $book_to_rent['author'], $rent_user_info['user_id']);
+      addOrders($rent_user_info['user_id'], $book_to_rent['title'], $book_to_rent['author']);
   }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -33,10 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <?php include('header.php') ?> 
 
 
-<div class="container">
+<div class="container" style="padding-top:25px;">
   <h1>Rent a Book</h1>  
     <hr>
-<form name="mainForm" action="book-catalogue.php" method="post">
+<form name="mainForm" action="accountInfo.php" method="post">
   <h3> <b> Book Information </b> </h3>
   <div class="row mb-3 mx-3">
     Title:
@@ -71,11 +76,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <br/>
   <hr>
   <h3> User Information </h3>  
+  <div class="row mb-3 mx-3">
+    Name:
+    <?php if ($rent_user_info!=null) echo $rent_user_info['first_name'], " ", $rent_user_info['last_name']?>
+    <input type="hidden" name="renter_name" 
+                value="<?php echo $rent_user_info['first_name'], " ", $rent_user_info['last_name']; ?>" />         
+  </div>  
+  <div class="row mb-3 mx-3">
+    Age:
+    <?php if ($rent_user_info!=null) echo $rent_user_info['age']?>
+    <input type="hidden" name="renter_age" 
+                value="<?php echo $rent_user_info['age']; ?>" />         
+  </div>  
+  <div class="row mb-3 mx-3">
+    Email:
+    <?php if ($rent_user_info!=null) echo $rent_user_info['email']?>
+    <input type="hidden" name="renter_email" 
+                value="<?php echo $rent_user_info['email']; ?>" />         
+  </div>  
+  <div class="row mb-3 mx-3">
+    Address:
+    <?php if ($rent_user_info!=null) echo $rent_user_info['street_address'], " ", $rent_user_info['city'], " ", 
+                    $rent_user_info['state'], " ", $rent_user_info['zip_code'] ?>
+    <input type="hidden" name="renter_address" 
+                value="<?php echo $rent_user_info['street_address'], " ", $rent_user_info['city'], " ", 
+                    $rent_user_info['state'], " ", $rent_user_info['zip_code']; ?>" />         
+  </div>  
+
   <br/>
   <hr>
   <h3> Rental Information </h3>    
   <div>
-    <input type="submit" value="Confirm rental" name="btnAction" class="btn btn-primary" 
+    <input type="submit" value="Rent" name="btnAction" class="btn btn-primary" 
            title="Rent book" />            
   </div>  
 

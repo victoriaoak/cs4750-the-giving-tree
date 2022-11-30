@@ -30,12 +30,12 @@
 ////////////////////////////////////////////
 
 /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on local XAMPP) **/
+
 $username = 'vyo7tv';
 $password = 'LZSEs72ex(iu[oBr';
 $host = 'mysql01.cs.virginia.edu';
 $dbname = 'vyo7tv_a';
 $dsn = "mysql:host=$host;dbname=$dbname";  
-////////////////////////////////////////////
 
 /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on CS server) **/
 // $username = 'vyo7tv'; 
