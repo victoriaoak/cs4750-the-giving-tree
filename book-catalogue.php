@@ -3,6 +3,8 @@ require("connect-db.php");      // include("connect-db.php");
 require("book-db.php");
 require("account-db.php");
 
+error_reporting (E_ALL ^ E_NOTICE); 
+
 $list_of_books = getAllBooks();
 $user_id = getUserID($_COOKIE['user'], $_COOKIE['hash']);
 $book_to_update = null;  
