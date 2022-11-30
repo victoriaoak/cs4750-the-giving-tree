@@ -8,13 +8,13 @@
 // updateUser - Joanne
 // deleteUser - Joanne
 
-function addUser($user_id, $username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city, $late_fee_dues)
+function addUser($username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city)
 {
     global $db;
     $query = "INSERT INTO user_info VALUES (:user_id, :username, :pwd, :first_name, :last_name, :age, :email, :phone_number, :street_address, :city, :late_fee_dues)";  
     try {
         $statement = $db->prepare($query);
-        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':user_id', rand());
         $statement->bindValue(':username', $username);
         $statement->bindValue(':pwd', $pwd);
         $statement->bindValue(':first_name', $first_name);
@@ -24,7 +24,7 @@ function addUser($user_id, $username, $pwd, $first_name, $last_name, $age, $emai
         $statement->bindValue(':phone_number', $phone_number);
         $statement->bindValue(':street_address', $street_address);
         $statement->bindValue(':city', $city);
-        $statement->bindValue(':late_fee_dues', $late_fee_dues);
+        $statement->bindValue(':late_fee_dues', 0.00);
         $statement->execute();
         $statement->closeCursor();
     }
@@ -37,6 +37,75 @@ function addUser($user_id, $username, $pwd, $first_name, $last_name, $age, $emai
     {
         echo $e->getMessage();
     }
+}
+
+function getPassword($username)
+{
+    global $db;
+    $query = "SELECT pwd FROM user_info WHERE username = :username";
+
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':username', $username);
+        $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e)
+    {
+        if ($statement->rowCount() == 0) {
+            echo "user is not found <br/>";
+        } else {
+            var_dump($result);
+        }
+    }
+    return $result;
+}
+
+function getUserID($username, $pwd)
+{
+    global $db;
+    $query = "SELECT user_id FROM user_info WHERE username = :username AND pwd = :pwd";
+
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':username', $username);
+        $statement->bindValue(':pwd', $pwd);
+        $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e)
+    {
+        if ($statement->rowCount() == 0) {
+            echo "user is not found <br/>";
+        } else {
+            var_dump($result);
+        }
+    }
+    return $result;
+}
+
+function getRatings($user_id) {
+    global $db;
+    $query = "SELECT * FROM rating NATURAL JOIN rating_details WHERE user_id = :user_id";
+
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e)
+    {
+        if ($statement->rowCount() == 0) {
+            echo $user_id . "is not found <br/>";
+        } else {
+            var_dump($result);
+        }
+    }
+    return $result;
 }
 
 function addCustomer($user_id, $ranking) 
@@ -109,6 +178,7 @@ function getCustomerRank($username, $pwd)
     }
     return $result;
 }
+
 
 function getAdminSpecific($username, $pwd)
 {

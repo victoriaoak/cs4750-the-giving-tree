@@ -23,26 +23,22 @@ function authenticate()
    
    if ($_SERVER['REQUEST_METHOD'] == 'POST')
    {
-      $hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
-      // htmlspecialchars() stops script tags from being able to be executed and renders them as plaintext
+      $hash = getPassword($_POST['username'])['pwd'];
       $pwd = htmlspecialchars(trim($_POST['password'])); 
-      // successfully login, redirect a user to the main page
       $user = trim($_POST['username']);
-
-      setcookie('random', "testing1");
-      setcookie('user', $user);
-              
-      setcookie('pwd', $_POST['password']);    // password_hash() requires at least PHP5.5
     
       if (password_verify($pwd, $hash))
       {  
         $list_user_info = getUserByID($_COOKIE['user'], $_COOKIE['pwd']);
-        $customer_rank = getCustomerRank($_COOKIE['user'], $_COOKIE['pwd']);                   
+        $customer_rank = getCustomerRank($_COOKIE['user'], $_COOKIE['pwd']);  
+        setcookie('user', $user);   
+        setcookie('hash', $hash);   
+        setcookie('pwd', $pwd);             
         // Redirect the browser to another page using the header() function to specify the target URL
         header("Location: ".$mainpage);
          
       }
-      else       
+      else    
          echo "<span class='msg'>Username and password do not match our record</span> <br/>";
    }	
 }
@@ -50,6 +46,7 @@ function authenticate()
 
 <!DOCTYPE html>
 <html>
+<link rel="icon" type="image/png" href="./icon/favicon-32x32.png" />
     <body>
         <?php include('header.php') ?> 
 

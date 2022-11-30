@@ -13,9 +13,10 @@
 
 <style>
   .hero_image {
-    width: 1700px;
-    height: 1500px;
+    width: 100%;
+    height: 1200px;
     overflow: hidden;
+    opacity: 0.5;
   }
 </style>
 
@@ -28,7 +29,7 @@
 
 </div> 
 
-<!-- <img class="hero_image" src="./images/books.jpg" alt="lots of books"> -->
+<img class="hero_image" src="./images/books.jpg" alt="lots of books">
 
 <?php include('footer.html') ?>
 

@@ -3,7 +3,7 @@ require("connect-db.php");      // include("connect-db.php");
 require("account-db.php");
 
 //$list_all_user_info = getAllUserInfo();
-$user_to_update = null;      
+$user_to_update = null;  
 ?>
 
 <?php
