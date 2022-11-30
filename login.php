@@ -28,9 +28,7 @@ function authenticate()
       $user = trim($_POST['username']);
     
       if (password_verify($pwd, $hash))
-      {  
-        $list_user_info = getUserByID($_COOKIE['user'], $_COOKIE['pwd']);
-        $customer_rank = getCustomerRank($_COOKIE['user'], $_COOKIE['pwd']);  
+      {   
         setcookie('user', $user);   
         setcookie('hash', $hash);   
         setcookie('pwd', $pwd);             

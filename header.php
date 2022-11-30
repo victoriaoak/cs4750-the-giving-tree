@@ -41,7 +41,7 @@
 
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-              <?php if (isset($_COOKIE['user']) && isset($_COOKIE['hash']) && isset($is_customer['ranking'])) {?> 
+              <?php if (isset($_COOKIE['user']) && isset($_COOKIE['hash'])) {?> 
                 <a class="nav-link" href="submit-request.php">Submit a Request</a> <?php }?>
           </li>
           <li class="nav-item">

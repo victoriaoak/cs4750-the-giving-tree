@@ -254,17 +254,6 @@ function updateUser($user_id, $username, $pwd, $first_name, $last_name, $age, $e
     $statement->closeCursor();
 }
 
-// user info table
-function deleteBook($user_id, $username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city, $late_fee_dues)
-{
-    global $db;
-    $query = "DELETE FROM user_info WHERE user_id=:user_id";
-    $statement = $db->prepare($query);
-    $statement->bindValue(':user_id', $user_id);
-    $statement->execute();
-    $statement->closeCursor();
-}
-
 function addAddress($street_address, $city, $state, $zip_code)
 {
     global $db;
