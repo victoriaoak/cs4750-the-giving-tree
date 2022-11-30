@@ -124,7 +124,6 @@ if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Delete')
                     <th width="40%"><b>Title</b></th>
                     <th width="30%"><b>Author</b></th> 
                     <th width="20%"><b>Rating</b></th>     
-                    <th><b>Update?</b></th>
                     <th><b>Delete?</b></th>
                 </tr>
                 </thead>
@@ -133,16 +132,6 @@ if (!empty($_POST['btnAction']) && $_POST['btnAction'] =='Delete')
                     <td><?php echo $rating['title']; ?></td>
                     <td><?php echo $rating['author']; ?></td>
                     <td><?php echo $rating['stars']; ?></td>
-                    <td>
-                        <form action="rating-update-form.php" method="post">
-                        <input type="submit" value="Update" name="btnAction" class="btn btn-primary" 
-                                title="Click to update this rating" />
-                        <input type="hidden" name="rating_title_to_update" 
-                                value="<?php echo $rating['title']; ?>" />
-                        <input type="hidden" name="rating_author_to_update" 
-                                value="<?php echo $rating['author']; ?>" />                 
-                        </form>
-                    </td>
                     <td>
                         <form action="accountInfo.php" method="post" onclick="return confirm('Are you sure you want to delete this rating?');">
                         <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" 
