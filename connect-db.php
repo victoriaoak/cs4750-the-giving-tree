@@ -2,11 +2,11 @@
 // Remember to start the database server (or GCP SQL instance) before trying to connect to it
 ////////////////////////////////////////////
 /** F22, PHP (on Google Standard App Engine) connect to MySQL instance (GCP) **/
-$username = 'vyo7tv';                       // or your username
-$password = 'ShPv_06010216_sHpV_03131201!!';     
-$host = 'cs4750db-365918:us-east4:the-giving-tree';       // e.g., 'cs4750:us-east4:db-demo'; 
-$dbname = 'library2';           // e.g., 'guestbook';
-$dsn = "mysql:unix_socket=/cloudsql/cs4750db-365918:us-east4:the-giving-tree;dbname=library2";
+// $username = 'root';                       // or your username
+// $password = 'your-root-password';     
+// $host = 'instance-connection-name';       // e.g., 'cs4750:us-east4:db-demo'; 
+// $dbname = 'your-database-name';           // e.g., 'guestbook';
+// $dsn = "mysql:unix_socket=/cloudsql/instance-connection-name;dbname=your-database-name";
 //       e.g., "mysql:unix_socket=/cloudsql/cs4750:us-east4:db-demo;dbname=guestbook";
 
 // to get instance connection name, go to GCP SQL overview page
@@ -31,11 +31,11 @@ $dsn = "mysql:unix_socket=/cloudsql/cs4750db-365918:us-east4:the-giving-tree;dbn
 
 /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on local XAMPP) **/
 
-// $username = 'vyo7tv';
-// $password = 'LZSEs72ex(iu[oBr';
-// $host = 'mysql01.cs.virginia.edu';
-// $dbname = 'vyo7tv_a';
-// $dsn = "mysql:host=$host;dbname=$dbname";  
+$username = 'vyo7tv';
+$password = 'LZSEs72ex(iu[oBr';
+$host = 'mysql01.cs.virginia.edu';
+$dbname = 'vyo7tv_a';
+$dsn = "mysql:host=$host;dbname=$dbname";  
 
 /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on CS server) **/
 // $username = 'vyo7tv'; 
