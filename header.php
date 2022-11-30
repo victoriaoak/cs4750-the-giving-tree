@@ -29,7 +29,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="book-catalogue.php" style="font-size:115%">Book Database</a>
+            <a class="nav-link" href="book-catalogue-admin.php" style="font-size:115%">Book Database</a>
           </li>
         </ul>
 

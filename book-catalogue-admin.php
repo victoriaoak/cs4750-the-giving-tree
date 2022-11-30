@@ -1,10 +1,17 @@
 <?php
 require("connect-db.php");      // include("connect-db.php");
 require("book-db.php");
+require("account-db.php");
 
 $list_of_books = getAllBooks();
 $book_to_update = null;  
 $book_to_rent = null;    
+$admin_specifics = getAdminSpecific($_COOKIE['user'], $_COOKIE['pwd']);
+?>
+
+<?php 
+if ($admin_specifics == NULL)
+      header('Location: book-catalogue.php');
 ?>
 
 <?php
@@ -54,6 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <div class="container">
 <h1>Book Catalogue</h1> 
+<div>
+    <form action="book-insert-form.php"> <br/>
+    Admin Actions: &ensp;
+        <button type="submit" class="btn btn-info" title="Admin: add a new book to the database">Add a Book</button>
+    </form>                   
+</div>
 <br/>
 
 
@@ -67,6 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <th width="15%"><b>Average Rating</b></th>
     <th width="15%"><b>Quantity</b></th>
     <th width="15%"><b>In Stock?</b></th>
+    <th><b>Update?</b></th>
+    <th><b>Delete?</b></th>
     <th><b>Rate?</b></th>
     <th><b>Rent?</b></th>
   </tr>
@@ -79,6 +94,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      <td><?php echo $book_info['avg_rating']; ?></td>
      <td><?php echo $book_info['quantity']; ?></td>
      <td><?php if ($book_info['in_stock']==0) {echo "No";} else {echo "Yes";} ?></td>
+     <td>
+        <form action="book-update-form.php" method="post">
+          <input type="submit" value="Update" name="btnAction" class="btn btn-primary" 
+                title="Click to update this book" />
+          <input type="hidden" name="book_title_to_update" 
+                value="<?php echo $book_info['title']; ?>" />
+          <input type="hidden" name="book_author_to_update" 
+                value="<?php echo $book_info['author']; ?>" />                 
+        </form>
+     </td>
+     <td>
+        <form action="book-catalogue.php" method="post" onclick="return confirm('Are you sure you want to delete this book?');">
+          <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" 
+                title="Click to remove this book from the database" />
+          <input type="hidden" name="book_title_to_delete" 
+                value="<?php echo $book_info['title']; ?>" />
+          <input type="hidden" name="book_author_to_delete" 
+                value="<?php echo $book_info['author']; ?>" />                   
+        </form>
+     </td>
      <td>
         <form action="book-catalogue.php" method="post">
           <input type="submit" value="Rate" name="btnAction" class="btn btn-warning" 
