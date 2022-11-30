@@ -11,14 +11,6 @@ function getAllUserInfo()
     return $result;
 }
 
-// TODO:
-// insert into user_address function - Hannah
-// insert into admin_info function - Hannah 
-// insert into customer function - Victoria
-// getUserByID - Victoria
-// updateUser - Joanne
-// deleteUser - Joanne
-
 function addUser($username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city)
 {
     global $db;
@@ -316,6 +308,56 @@ function addAdminInfo($user_id, $role)
     {
         if ($statement->rowCount() == 0)
             echo "Failed to add user <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
+function addRents($title, $author, $user_id)
+{
+    global $db;
+    $query = "INSERT INTO rents VALUES (:title, :author, :user_id, :is_returned)";  
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':author', $author);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':is_returned', 0);
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to add book rental <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
+
+function addOrders($user_id, $title, $author)
+{
+    global $db;
+    $query = "INSERT INTO orders VALUES (:order_id, :user_id, :due_date, :title, :author)";  
+    $due = Date('y:m:d', strtotime('+14 days'));
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':order_id', rand());
+        $statement->bindValue(':user_id', $user_id);
+        $statement->bindValue(':due_date', $due);
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':author', $author);
+        $statement->execute();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e) 
+    {
+        if ($statement->rowCount() == 0)
+            echo "Failed to add order <br/>";
     }
     catch (Exception $e)
     {

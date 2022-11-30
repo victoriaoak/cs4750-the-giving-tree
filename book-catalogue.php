@@ -88,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </form>
      </td>
      <td>
+     <?php if (isset($_COOKIE['user']) && isset($_COOKIE['hash'])) {?> 
         <form action="rent-form.php" method="post">
           <input type="submit" value="Rent" name="btnAction" class="btn btn-success" 
                 title="Click to rent out this book" />
@@ -96,6 +97,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           <input type="hidden" name="book_author_to_rent" 
                 value="<?php echo $book_info['author']; ?>" />              
         </form>
+      <?php }?>
+      <?php if (!isset($_COOKIE['user']) && !isset($_COOKIE['hash'])) {?> 
+        <form action="login.php">
+          <input type="submit" value="Rent" name="btnAction" class="btn btn-success" 
+                title="Click to rent out this book" />            
+        </form>
+      <?php }?>
      </td>
   </tr>
 <?php endforeach; ?>
