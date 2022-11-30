@@ -17,7 +17,7 @@
 <header>  
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/" style="padding:15px;">
-      <div class="logo-image">
+      <div class="logo-image" href="homepage.php">
             <img src="icon\android-chrome-192x192.png" class="img-fluid" width="50" height="50">
       </div>
     </a>
@@ -41,14 +41,15 @@
 
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-              <?php if (isset($_COOKIE['user']) && isset($_COOKIE['pwd'])) {?> <a class="nav-link" href="submit-request.php">Submit a Request</a> <?php }?>
+              <?php if (isset($_COOKIE['user']) && isset($_COOKIE['hash']) && isset($is_customer['ranking'])) {?> 
+                <a class="nav-link" href="submit-request.php">Submit a Request</a> <?php }?>
           </li>
           <li class="nav-item">
-              <?php if (isset($_COOKIE['user']) && isset($_COOKIE['pwd'])) {?> <a class="nav-link" href="accountInfo.php">Account Information</a> <?php }?>
+              <?php if (isset($_COOKIE['user']) && isset($_COOKIE['hash'])) {?> <a class="nav-link" href="accountInfo.php">Account Information</a> <?php }?>
           </li>
           <li class="nav-item" style = "padding-right: 20px;">
-              <?php if (isset($_COOKIE['user']) && isset($_COOKIE['pwd'])) {?> <a class="nav-link" href="logout.php">Log Out</a> <?php }?>
-              <?php if (!isset($_COOKIE['user']) && !isset($_COOKIE['pwd'])) {?> <a class="nav-link" href="login.php">Log In</a> <?php }?>
+              <?php if (isset($_COOKIE['user']) && isset($_COOKIE['hash'])) {?> <a class="nav-link" href="logout.php">Log Out</a> <?php }?>
+              <?php if (!isset($_COOKIE['user']) && !isset($_COOKIE['hash'])) {?> <a class="nav-link" href="login.php">Log In</a> <?php }?>
           </li>
         </ul>
 

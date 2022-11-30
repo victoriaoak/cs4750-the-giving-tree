@@ -11,6 +11,14 @@ function getAllUserInfo()
     return $result;
 }
 
+// TODO:
+// insert into user_address function - Hannah
+// insert into admin_info function - Hannah 
+// insert into customer function - Victoria
+// getUserByID - Victoria
+// updateUser - Joanne
+// deleteUser - Joanne
+
 function addUser($username, $pwd, $first_name, $last_name, $age, $email, $phone_number, $street_address, $city)
 {
     global $db;
@@ -42,6 +50,74 @@ function addUser($username, $pwd, $first_name, $last_name, $age, $email, $phone_
     }
 }
 
+function getPassword($username)
+{
+    global $db;
+    $query = "SELECT pwd FROM user_info WHERE username = :username";
+
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':username', $username);
+        $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e)
+    {
+        if ($statement->rowCount() == 0) {
+            echo "user is not found <br/>";
+        } else {
+            var_dump($result);
+        }
+    }
+    return $result;
+}
+
+function getUserID($username, $pwd)
+{
+    global $db;
+    $query = "SELECT user_id FROM user_info WHERE username = :username AND pwd = :pwd";
+
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':username', $username);
+        $statement->bindValue(':pwd', $pwd);
+        $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e)
+    {
+        if ($statement->rowCount() == 0) {
+            echo "user is not found <br/>";
+        } else {
+            var_dump($result);
+        }
+    }
+    return $result;
+}
+
+function getRatings($user_id) {
+    global $db;
+    $query = "SELECT * FROM rating NATURAL JOIN rating_details WHERE user_id = :user_id";
+
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+    }
+    catch (PDOException $e)
+    {
+        if ($statement->rowCount() == 0) {
+            echo $user_id . "is not found <br/>";
+        } else {
+            var_dump($result);
+        }
+    }
+    return $result;
+}
 
 function addCustomer($user_id, $ranking) 
 {
@@ -113,6 +189,7 @@ function getCustomerRank($username, $pwd)
     }
     return $result;
 }
+
 
 function getAdminSpecific($username, $pwd)
 {

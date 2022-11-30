@@ -30,12 +30,12 @@
 ////////////////////////////////////////////
 
 /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on local XAMPP) **/
-$username = 'cs4750user';
-$password = 'CSdbproj#1';
-$host = 'localhost';
-$dbname = 'library1';
+
+$username = 'vyo7tv';
+$password = 'LZSEs72ex(iu[oBr';
+$host = 'mysql01.cs.virginia.edu';
+$dbname = 'vyo7tv_a';
 $dsn = "mysql:host=$host;dbname=$dbname";  
-////////////////////////////////////////////
 
 /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on CS server) **/
 // $username = 'vyo7tv'; 
@@ -82,7 +82,7 @@ try
    $db = new PDO($dsn, $username, $password);
    
    // dispaly a message to let us know that we are connected to the database 
-   echo "<p>You are connected to the database --- host=$host</p>";
+   // echo "<p>You are connected to the database --- host=$host</p>";
 }
 catch (PDOException $e)     // handle a PDO exception (errors thrown by the PDO library)
 {

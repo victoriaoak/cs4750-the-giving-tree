@@ -1,7 +1,5 @@
 <?php 
 
-$request_id = 103;
-
 function getAdminNameRole()
 {
     global $db;
@@ -25,17 +23,17 @@ function getAdminNameRole()
     return $result;
 }
 
-function addRequest($customer_id, $admin_id, $request)
+function addRequest($customer_id, $admin_id, $request_text)
 {
     global $db;
-    global $request_id;
-    $query = "INSERT INTO request VALUES (:customer_id, :admin_id, :request_id, :request)"; 
+    $request_id = rand();
+    $query = "INSERT INTO request VALUES (:customer_id, :admin_id, :request_id, :request_text)"; 
     try {
         $statement = $db->prepare($query);
         $statement->bindValue(':customer_id', $customer_id);
         $statement->bindValue(':admin_id', $admin_id);
         $statement->bindValue(':request_id', $request_id);
-        $statement->bindValue(':request', $request);
+        $statement->bindValue(':request_text', $request_text);
         $statement->execute();
         $statement->closeCursor();
     }
@@ -46,15 +44,13 @@ function addRequest($customer_id, $admin_id, $request)
             echo $customer_id;
             echo $admin_id;
             echo $request_id;
-            echo $request;
+            echo $request_text;
         }
     }
     catch (Exception $e)
     {
         echo $e->getMessage();
     }
-    $request_id++; 
-    echo $request_id;
 }
 
 ?>
